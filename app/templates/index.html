@@ -1,0 +1,54 @@
+{% extends "_layout.html" %}
+{% block body %}
+
+<div class="border-box col-article mx-auto mb4 mt5" id="poll">
+  <div>
+    <div class="xs-flex sm-flex md-display-none col-12 a-grid-3 mb3">
+      <div class="col-12 bg-light-gry" style="height: 25px;"></div>
+    </div>
+    <div class="relative flex items-center justify-center mb1-5 col-12">
+      <span class="absolute col-12 bg-light-gry zn1 left-0" style="height: 1px;"></span>
+      <p class="m0 p0 px2 center bg-white font-size-1 color-primary bold caps sans line-height-2 z2">Poll</p>
+    </div>
+
+    <div v-if="active_poll"  v-cloak>
+      <p class="m0 p0 pb1-5 font-size-3 color-text bold sans line-height-4" v-text="active_poll.description"></p>
+      <p class="m0 p0 pb2-5 font-size-3 color-text sans line-height-4" v-text="active_poll.description"></p>
+    </div>
+
+    <div v-if="active_poll" v-cloak v-for="(option, index) in active_poll.options">
+      <hr class="m0 p0 pb1 border-0 border-top-1 border-top-light-gry">
+      <div class="poll-options" v-if="!voted">
+        <label class="relative flex items-center pb1 color-gry cursor-pointer" style="min-height: 25px;">
+        <input v-model="selection" type="radio" v-bind:value="option.name">
+        <span class="border-box form-radio">&nbsp;</span>
+        <span class="pl2-5 color-medium-gry" v-text="option.name"></span>
+        </label>
+      </div>
+      <div class="poll-results" v-if="voted" v-cloak>
+        <div v-text="option.name"></div>
+        <div class="flex items-center justify-center">
+          <div class="bg-primary my0-5" style="width: 26.6667%; height: 3px;"></div>
+          <div class="bg-bright-gry flex-auto my0-5" style="height: 3px;"></div>
+        </div>
+        <div class="bold sans color-text pb1">27% (<span v-text="option.votes"></span> Votes)</div>
+      </div>
+    </div>
+
+    <div v-if="voted" v-cloak class="p0 flex flex-wrap md-items-center mt2">
+      <div class="mb1 mr1">
+      Thank you for responding.
+      </div>
+    </div>
+
+    <div class="flex items-center pt1-5">
+      <button v-if="selection" v-cloak v-on:click="vote" class="inline-block border-box center border-3 border-bottom border-none border-primary--dark bg-primary hover-bg-primary--dark font-size-1 color-white bold caps sans text-decoration-none line-height-4 transition-all btn-padding-filled a-hard-height-for-button">
+      vote</button>
+      <button v-if="!selection" v-cloak class="inline-block border-box center border-3 border-bottom border-gry border-none bg-light-gry font-size-1 color-gry bold caps sans text-decoration-none line-height-4 transition-all cursor-not-allowed btn-padding-filled a-hard-height-for-button">
+      vote</button>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
